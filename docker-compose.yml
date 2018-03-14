@@ -2,6 +2,5 @@ version: '3'
 services:
   roxy:
     build: roxy/
-    image: roxy:2.5
     volumes:
       - ./project:/project
