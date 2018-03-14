@@ -4,6 +4,19 @@ services:
     build: roxy/
     volumes:
       - ./project:/project
+  odh:
+    build:
+      context: odh/
+      args:
+        ODH_INSTALL_PATH: "${ODH_INSTALL_PATH}"
+    image: "odh:odh2.0.4"
+    container_name: "odh"
+    hostname: odh
+    command: "java -jar /${ODH_INSTALL_PATH}"
+    ports:
+      - 8080:8080
+    volumes:
+      - "${LOCAL_VOLUME_DIR}/odh-${BUILD_ENV}:/odh"
   marklogic:
     build:
       context: "./ml${ML_VERSION}"
@@ -11,8 +24,9 @@ services:
         ML_INSTALL_PATH: "${ML_INSTALL_PATH}"
     image: "marklogic:marklogic${ML_VERSION}"
     container_name: "marklogic${ML_VERSION}-${BUILD_ENV}-1"
+    hostname: marklogic
     volumes:
       - "${LOCAL_VOLUME_DIR}/marklogic${ML_VERSION}-${BUILD_ENV}-1:/var/opt/MarkLogic"
     ports:
-      - "${PORT_LOWER}-${PORT_UPPER}:${PORT_LOWER}-${PORT_UPPER}"
+      - "${ML_PORT_LOWER}-${ML_PORT_UPPER}:${ML_PORT_LOWER}-${ML_PORT_UPPER}"
     command: /bin/sh -c "/etc/init.d/MarkLogic start && tail -f /dev/null"
