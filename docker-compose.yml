@@ -4,3 +4,15 @@ services:
     build: roxy/
     volumes:
       - ./project:/project
+  marklogic:
+    build:
+      context: "./ml${ML_VERSION}"
+      args:
+        ML_INSTALL_PATH: "${ML_INSTALL_PATH}"
+    image: "marklogic:marklogic${ML_VERSION}"
+    container_name: "marklogic${ML_VERSION}-${BUILD_ENV}-1"
+    volumes:
+      - "${LOCAL_VOLUME_DIR}/marklogic${ML_VERSION}-${BUILD_ENV}-1:/var/opt/MarkLogic"
+    ports:
+      - "${PORT_LOWER}-${PORT_UPPER}:${PORT_LOWER}-${PORT_UPPER}"
+    command: /bin/sh -c "/etc/init.d/MarkLogic start && tail -f /dev/null"
