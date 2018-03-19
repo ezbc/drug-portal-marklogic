@@ -9,8 +9,11 @@ Download Operational Data Hub quick start [release](https://github.com/marklogic
 
 Edit the `.env` file to change your environment specific options. 
 
-Change the `ML_INSTALL_PATH` to be the relative path from the ml9 directory to
-the MarkLogic installation.
+Change the `ML_INSTALL_PATH` to be the relative path from the `ml9` directory
+to the MarkLogic installation.
+
+Change the `ODH_INSTALL_PATH` to be the relative path from the `odh` directory
+to the quick start war file.
 
 Change the `LOCAL_VOLUME_DIR` to be a directory where the services data files
 will live. A volume mount will be created for the operation data hub,
