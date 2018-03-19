@@ -1,4 +1,5 @@
-FROM ruby:2.5
+FROM centos:centos7
+
 
 COPY roxy-1.7.7/* /project/
 

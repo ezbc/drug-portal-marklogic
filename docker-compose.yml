@@ -1,29 +1,35 @@
 version: '3'
 services:
-  roxy:
-    build: roxy/
+  corb:
+    build:
+      context: gradle
+      args:
+        CORB_JAR_PATH: "${CORB_JAR_PATH}"
+    container_name: corb
+    image: gradle:ml${ML_VERSION}
+    hostname: corb
     volumes:
-      - ./project:/project
+      - "${LOCAL_VOLUME_DIR}/corb-${BUILD_ENV}:/corb"
   odh:
     build:
-      context: odh/
+      context: gradle
       args:
         ODH_INSTALL_PATH: "${ODH_INSTALL_PATH}"
-    image: "odh:odh2.0.4"
-    container_name: "odh"
+    container_name: odh
     hostname: odh
-    command: "java -jar /${ODH_INSTALL_PATH}"
+    image: gradle:ml${ML_VERSION}
+    command: "java -jar /opt/odh/${ODH_INSTALL_PATH}"
     ports:
-      - 8080:8080
+      - "${ODH_PORT}:8080"
     volumes:
       - "${LOCAL_VOLUME_DIR}/odh-${BUILD_ENV}:/odh"
   marklogic:
     build:
-      context: "./ml${ML_VERSION}"
+      context: "ml${ML_VERSION}"
       args:
         ML_INSTALL_PATH: "${ML_INSTALL_PATH}"
     image: "marklogic:marklogic${ML_VERSION}"
-    container_name: "marklogic${ML_VERSION}-${BUILD_ENV}-1"
+    container_name: "marklogic"
     hostname: marklogic
     volumes:
       - "${LOCAL_VOLUME_DIR}/marklogic${ML_VERSION}-${BUILD_ENV}-1:/var/opt/MarkLogic"
