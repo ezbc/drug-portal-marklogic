@@ -1,3 +1,4 @@
+*.jar
 project/volumes
 
 # Docker project generated files to ignore
